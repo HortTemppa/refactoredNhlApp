@@ -1,0 +1,20 @@
+{
+  "name": "nhlapp",
+  "version": "1.0.0",
+  "description": "NHL statistics REST API. Utilizes NHL's statistics API. The point is to make the most relevant data more accessible.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test app"
+  },
+  "keywords": [
+    "nhl",
+    "backend",
+    "rest",
+    "api"
+  ],
+  "author": "Teemu Laine",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
