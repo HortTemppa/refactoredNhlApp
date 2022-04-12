@@ -1,5 +1,9 @@
-const NHLRouter = require("express").Router();
+import { Router } from "express";
+const NHLRouter: Router = Router();
 
-NHLRouter.get("/teams");
+import { getAllTeams } from "../controllers/teams";
 
-//test
+NHLRouter.get("/teams", getAllTeams);
+
+//testtest
+export default NHLRouter;
