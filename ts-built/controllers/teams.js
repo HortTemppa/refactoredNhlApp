@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllTeams = void 0;
+exports.getTeamByID = exports.getAllTeams = void 0;
 const node_fetch_1 = __importDefault(require("node-fetch"));
 const getAllTeams = async (req, res, next) => {
     try {
@@ -12,10 +12,33 @@ const getAllTeams = async (req, res, next) => {
         const teams = json.teams.map((team) => {
             return { name: team.name, id: team.id };
         });
-        res.send(teams);
+        return res.status(400).send(teams);
     }
     catch (error) {
         next(error);
     }
 };
 exports.getAllTeams = getAllTeams;
+const getTeamByID = async (req, res, next) => {
+    const teamID = req.params.id;
+    const url = `https://statsapi.web.nhl.com/api/v1/teams/${teamID}`;
+    try {
+        const response = await (0, node_fetch_1.default)(url);
+        const json = await response.json();
+        console.log(json);
+        const team = {
+            name: json.teams[0].name,
+            id: json.teams[0].id,
+            teamName: json.teams[0].teamName,
+            firstYearOfPlay: json.teams[0].firstYearOfPlay,
+            division: json.teams[0].division.name,
+            conference: json.teams[0].conference.name,
+            officialSiteUrl: json.teams[0].officialSiteUrl,
+        };
+        return res.status(400).send(team);
+    }
+    catch (error) {
+        next(error);
+    }
+};
+exports.getTeamByID = getTeamByID;

@@ -4,5 +4,6 @@ const express_1 = require("express");
 const NHLRouter = (0, express_1.Router)();
 const teams_1 = require("../controllers/teams");
 NHLRouter.get("/teams", teams_1.getAllTeams);
+NHLRouter.get("/teams/:id", teams_1.getTeamByID);
 //testtest
 exports.default = NHLRouter;
