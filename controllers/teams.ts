@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import fetch from "node-fetch";
+import fetch, { Headers } from "node-fetch";
 
 interface teamBasicInfo {
   name: string;
@@ -12,6 +12,14 @@ interface teamDetailedInfo extends teamBasicInfo {
   division: string;
   conference: string;
   officialSiteUrl: string;
+}
+
+interface playerBasicInfo {
+  name: string;
+  id: string;
+  jerseyNumber: string;
+  position: string;
+  positionType: string;
 }
 
 export const getAllTeams = async (
@@ -28,7 +36,7 @@ export const getAllTeams = async (
       return { name: team.name, id: team.id };
     });
 
-    return res.status(400).send(teams);
+    return res.status(200).send(teams);
   } catch (error) {
     next(error);
   }
@@ -45,7 +53,6 @@ export const getTeamByID = async (
   try {
     const response = await fetch(url);
     const json = await response.json();
-    console.log(json);
     const team: teamDetailedInfo = {
       name: json.teams[0].name,
       id: json.teams[0].id,
@@ -56,7 +63,34 @@ export const getTeamByID = async (
       officialSiteUrl: json.teams[0].officialSiteUrl,
     };
 
-    return res.status(400).send(team);
+    return res.status(200).send(team);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getTeamRoster = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const teamID: string = req.params.id;
+  const url: string = `https://statsapi.web.nhl.com/api/v1/teams/${teamID}/roster`;
+
+  try {
+    const response = await fetch(url);
+    const json = await response.json();
+
+    const roster = json.roster.map((player): playerBasicInfo => {
+      return {
+        name: player.person.fullName,
+        id: player.person.id,
+        jerseyNumber: player.jerseyNumber,
+        position: player.position.name,
+        positionType: player.position.type,
+      };
+    });
+    return res.status(200).send(roster);
   } catch (error) {
     next(error);
   }
