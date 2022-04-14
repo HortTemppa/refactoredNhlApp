@@ -6,10 +6,12 @@ interface ErrorExtended extends Error {
 }
 
 import { getAllTeams, getTeamByID, getTeamRoster } from "../controllers/teams";
+import { invalidRoute } from "../errorHandlers/routeError";
 
 NHLRouter.get("/teams", getAllTeams);
 NHLRouter.get("/teams/:id", getTeamByID);
 NHLRouter.get("/teams/:id/roster", getTeamRoster);
+NHLRouter.get("*", invalidRoute);
 
 //testtest
 export default NHLRouter;
