@@ -8,5 +8,4 @@ NHLRouter.get("/teams", teams_1.getAllTeams);
 NHLRouter.get("/teams/:id", teams_1.getTeamByID);
 NHLRouter.get("/teams/:id/roster", teams_1.getTeamRoster);
 NHLRouter.get("*", routeError_1.invalidRoute);
-//testtest
 exports.default = NHLRouter;
