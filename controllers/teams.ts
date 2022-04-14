@@ -18,13 +18,13 @@ export const getAllTeams = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<Response<Array<teamBasicInfo>>> => {
+) => {
   try {
     const response = await fetch("https://statsapi.web.nhl.com/api/v1/teams");
 
     const json = await response.json();
 
-    const teams = json.teams.map((team) => {
+    const teams = json.teams.map((team): teamBasicInfo => {
       return { name: team.name, id: team.id };
     });
 
