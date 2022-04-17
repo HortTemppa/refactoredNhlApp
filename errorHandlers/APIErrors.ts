@@ -1,6 +1,3 @@
-import { Response } from "express";
-import { Request } from "node-fetch";
-
 export const apiErrorHandler = (error, req, res, next) => {
   if (error.name == "CastError" && error.kind === "ObjectId") {
     return res.status(400).send({ error: "malformatted id" });
