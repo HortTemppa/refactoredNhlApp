@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import fetch, { Headers } from "node-fetch";
+import fetch from "node-fetch";
 
 interface teamBasicInfo {
   name: string;
@@ -22,6 +22,8 @@ interface playerBasicInfo {
   positionType: string;
 }
 
+/*Returns all the teams the teams in the NHL and their ID's*/
+
 export const getAllTeams = async (
   req: Request,
   res: Response,
@@ -41,6 +43,8 @@ export const getAllTeams = async (
     next(error);
   }
 };
+
+/*Returns basic information about the specified team*/
 
 export const getTeamByID = async (
   req: Request,
@@ -68,6 +72,8 @@ export const getTeamByID = async (
     next(error);
   }
 };
+
+/*Returns some basic information of the specified teams players*/
 
 export const getTeamRoster = async (
   req: Request,

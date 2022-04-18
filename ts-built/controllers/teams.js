@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTeamRoster = exports.getTeamByID = exports.getAllTeams = void 0;
 const node_fetch_1 = __importDefault(require("node-fetch"));
+/*Returns all the teams the teams in the NHL and their ID's*/
 const getAllTeams = async (req, res, next) => {
     try {
         const response = await (0, node_fetch_1.default)("https://statsapi.web.nhl.com/api/v1/teams");
@@ -19,6 +20,7 @@ const getAllTeams = async (req, res, next) => {
     }
 };
 exports.getAllTeams = getAllTeams;
+/*Returns basic information about the specified team*/
 const getTeamByID = async (req, res, next) => {
     const teamID = req.params.id;
     const url = `https://statsapi.web.nhl.com/api/v1/teams/${teamID}`;
@@ -41,6 +43,7 @@ const getTeamByID = async (req, res, next) => {
     }
 };
 exports.getTeamByID = getTeamByID;
+/*Returns some basic information of the specified teams players*/
 const getTeamRoster = async (req, res, next) => {
     const teamID = req.params.id;
     const url = `https://statsapi.web.nhl.com/api/v1/teams/${teamID}/roster`;
