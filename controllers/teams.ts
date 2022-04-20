@@ -1,26 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import fetch from "node-fetch";
-
-interface teamBasicInfo {
-  name: string;
-  id: string;
-}
-
-interface teamDetailedInfo extends teamBasicInfo {
-  teamName: string;
-  firstYearOfPlay: string;
-  division: string;
-  conference: string;
-  officialSiteUrl: string;
-}
-
-interface playerBasicInfo {
-  name: string;
-  id: string;
-  jerseyNumber: string;
-  position: string;
-  positionType: string;
-}
+import {
+  teamBasicInfo,
+  teamDetailedInfo,
+  playerBasicInfo,
+} from "../interfaces/teamInterfaces";
 
 /*Returns all the teams the teams in the NHL and their ID's*/
 

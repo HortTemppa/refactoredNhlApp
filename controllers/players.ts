@@ -1,5 +1,5 @@
-import { Stats } from "fs";
 import fetch, { Response } from "node-fetch";
+import { Player, Goalie } from "../interfaces/playerInterfaces";
 
 export const getPlayerStatsBySeason = async (req, res, next) => {
   const playerID: string = req.params.id;
@@ -7,44 +7,6 @@ export const getPlayerStatsBySeason = async (req, res, next) => {
 
   const basicUrl: string = `https://statsapi.web.nhl.com/api/v1/people/${playerID}`;
   const statsUrl: string = `https://statsapi.web.nhl.com/api/v1/people/${playerID}/stats?stats=statsSingleSeason&season=${season}`;
-
-  interface Player {
-    name: string;
-    id: string;
-    number: string;
-    birthDate: string;
-    nationality: string;
-    height: string;
-    weight: string;
-    position: string;
-    positionType: string;
-  }
-
-  interface Goalie extends Player {
-    otLosses: number;
-    shutouts: number;
-    ties: number;
-    wins: number;
-    losses: number;
-    saves: number;
-    powerPlaySaves: number;
-    shortHandedSaves: number;
-    evenSaves: number;
-    shortHandedShots: number;
-    evenShots: number;
-    powerPlayShots: number;
-    savePercentage: number;
-    goalAgainstAverage: number;
-    games: number;
-    gamesStarted: number;
-    shotsAgainst: number;
-    goalsAgainst: number;
-    timeOnIcePerGame: number;
-    powerPlaySavePercentage: number;
-    shortHandedSavePercentage: number;
-    evenStrengthSavePercentage: number;
-    team?: string;
-  }
 
   try {
     const playerInfoResponse: Response = await fetch(basicUrl);
