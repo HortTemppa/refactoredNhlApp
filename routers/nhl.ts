@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { getLeaderboards } from "../controllers/leaderboards";
 import { getPlayerStatsBySeason } from "../controllers/players";
 const NHLRouter: Router = Router();
 
@@ -14,6 +15,7 @@ NHLRouter.get("/teams/:id/roster", getTeamRoster);
 /* PLAYERSTATS & LEADERBOARDS */
 
 NHLRouter.get("/player/:id/:season", getPlayerStatsBySeason);
+NHLRouter.get("/leaderboards/:type/:sortBy/:season", getLeaderboards);
 
 /* TEAM STANDINGS */
 
