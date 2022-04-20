@@ -35,3 +35,22 @@ export interface Goalie extends Player {
   evenStrengthSavePercentage: number;
   team?: string;
 }
+
+export interface FieldPlayer extends Player {
+  team: string;
+  assists: number;
+  goals: number;
+  points: number;
+  pointsPerGame: number;
+  pim: number;
+  shots: number;
+  games: number;
+  hits: number;
+  powerPlayGoals: number;
+  powerPlayPoints: number;
+  faceOffPct: number;
+  shotPct: number;
+  gameWinningGoals: number;
+  plusMinus: number;
+  timeOnIcePerGame: string;
+}

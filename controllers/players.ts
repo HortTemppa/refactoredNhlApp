@@ -1,5 +1,5 @@
 import fetch, { Response } from "node-fetch";
-import { Player, Goalie } from "../interfaces/playerInterfaces";
+import { Player, Goalie, FieldPlayer } from "../interfaces/playerInterfaces";
 
 export const getPlayerStatsBySeason = async (req, res, next) => {
   const playerID: string = req.params.id;
@@ -33,43 +33,63 @@ export const getPlayerStatsBySeason = async (req, res, next) => {
       return res.status(200).send(player);
     }
 
-    if (player.position === "Goalie") {
-      const goalie: Goalie = {
-        ...player,
-        team: statsJson.currentTeam.name,
-        otLosses: statsJson.ot,
-        shutouts: statsJson.shutouts,
-        ties: statsJson.ties,
-        wins: statsJson.wins,
-        losses: statsJson.losses,
-        saves: statsJson.saves,
-        powerPlaySaves: statsJson.powerPlaySaves,
-        shortHandedSaves: statsJson.shortHandedSaves,
-        evenSaves: statsJson.evenSaves,
-        shortHandedShots: statsJson.shortHandedShots,
-        evenShots: statsJson.evenShots,
-        powerPlayShots: statsJson.powerPlayShots,
-        savePercentage: statsJson.savePercentage,
-        goalAgainstAverage: statsJson.goalAgainstAverage,
-        games: statsJson.games,
-        gamesStarted: statsJson.gamesStarted,
-        shotsAgainst: statsJson.shotsAgainst,
-        goalsAgainst: statsJson.goalsAgainst,
-        timeOnIcePerGame: statsJson.timeOnIcePerGame,
-        powerPlaySavePercentage: statsJson.powerPlaySavePercentage,
-        shortHandedSavePercentage: statsJson.shortHandedSavePercentage,
-        evenStrengthSavePercentage: statsJson.evenStrengthSavePercentage,
-      };
-      return res.status(200).json(goalie);
-    }
-
     const stats = statsJson.stats[0].splits[0].stat;
 
-    let statsAvailable: boolean = true;
+    if (player.position === "Goalie") {
+      /*Returns goalie stats.*/
 
-    console.log(stats);
+      const goalie: Goalie = {
+        ...player,
+        team: playerJson.people[0].currentTeam.name,
+        otLosses: stats.ot,
+        shutouts: stats.shutouts,
+        ties: stats.ties,
+        wins: stats.wins,
+        losses: stats.losses,
+        saves: stats.saves,
+        powerPlaySaves: stats.powerPlaySaves,
+        shortHandedSaves: stats.shortHandedSaves,
+        evenSaves: stats.evenSaves,
+        shortHandedShots: stats.shortHandedShots,
+        evenShots: stats.evenShots,
+        powerPlayShots: stats.powerPlayShots,
+        savePercentage: stats.savePercentage,
+        goalAgainstAverage: stats.goalAgainstAverage,
+        games: stats.games,
+        gamesStarted: stats.gamesStarted,
+        shotsAgainst: stats.shotsAgainst,
+        goalsAgainst: stats.goalsAgainst,
+        timeOnIcePerGame: stats.timeOnIcePerGame,
+        powerPlaySavePercentage: stats.powerPlaySavePercentage,
+        shortHandedSavePercentage: stats.shortHandedSavePercentage,
+        evenStrengthSavePercentage: stats.evenStrengthSavePercentage,
+      };
+      return res.status(200).json(goalie);
+    } else {
+      /*Returns field player stats.*/
 
-    return res.status(200).send("Here Shall be the stats.");
+      const fieldPlayer: FieldPlayer = {
+        ...player,
+        team: playerJson.people[0].currentTeam.name,
+        assists: stats.assists,
+        goals: stats.goals,
+        points: stats.points,
+        pointsPerGame: Math.round((stats.points / stats.games) * 100) / 100,
+        pim: stats.pim,
+        shots: stats.shots,
+        games: stats.games,
+        hits: stats.hits,
+        powerPlayGoals: stats.powerPlayGoals,
+        powerPlayPoints: stats.powerPlayPoints,
+        faceOffPct: stats.faceOffPct,
+        shotPct: stats.shotPct,
+        gameWinningGoals: stats.gameWinningGoals,
+        plusMinus: stats.plusMinus,
+        timeOnIcePerGame: stats.timeOnIcePerGame,
+      };
+
+      return res.status(200).json(fieldPlayer);
+    }
   } catch (error) {
     console.error(error);
     next(error);

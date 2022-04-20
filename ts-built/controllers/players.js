@@ -31,9 +31,59 @@ const getPlayerStatsBySeason = async (req, res, next) => {
             return res.status(200).send(player);
         }
         const stats = statsJson.stats[0].splits[0].stat;
-        let statsAvailable = true;
-        console.log(stats);
-        return res.status(200).send("Here Shall be the stats.");
+        if (player.position === "Goalie") {
+            /*Returns goalie stats.*/
+            const goalie = {
+                ...player,
+                team: playerJson.people[0].currentTeam.name,
+                otLosses: stats.ot,
+                shutouts: stats.shutouts,
+                ties: stats.ties,
+                wins: stats.wins,
+                losses: stats.losses,
+                saves: stats.saves,
+                powerPlaySaves: stats.powerPlaySaves,
+                shortHandedSaves: stats.shortHandedSaves,
+                evenSaves: stats.evenSaves,
+                shortHandedShots: stats.shortHandedShots,
+                evenShots: stats.evenShots,
+                powerPlayShots: stats.powerPlayShots,
+                savePercentage: stats.savePercentage,
+                goalAgainstAverage: stats.goalAgainstAverage,
+                games: stats.games,
+                gamesStarted: stats.gamesStarted,
+                shotsAgainst: stats.shotsAgainst,
+                goalsAgainst: stats.goalsAgainst,
+                timeOnIcePerGame: stats.timeOnIcePerGame,
+                powerPlaySavePercentage: stats.powerPlaySavePercentage,
+                shortHandedSavePercentage: stats.shortHandedSavePercentage,
+                evenStrengthSavePercentage: stats.evenStrengthSavePercentage,
+            };
+            return res.status(200).json(goalie);
+        }
+        else {
+            /*Returns field player stats.*/
+            const fieldPlayer = {
+                ...player,
+                team: playerJson.people[0].currentTeam.name,
+                assists: stats.assists,
+                goals: stats.goals,
+                points: stats.points,
+                pointsPerGame: Math.round((stats.points / stats.games) * 100) / 100,
+                pim: stats.pim,
+                shots: stats.shots,
+                games: stats.games,
+                hits: stats.hits,
+                powerPlayGoals: stats.powerPlayGoals,
+                powerPlayPoints: stats.powerPlayPoints,
+                faceOffPct: stats.faceOffPct,
+                shotPct: stats.shotPct,
+                gameWinningGoals: stats.gameWinningGoals,
+                plusMinus: stats.plusMinus,
+                timeOnIcePerGame: stats.timeOnIcePerGame,
+            };
+            return res.status(200).json(fieldPlayer);
+        }
     }
     catch (error) {
         console.error(error);
