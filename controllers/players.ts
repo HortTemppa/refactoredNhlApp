@@ -33,6 +33,36 @@ export const getPlayerStatsBySeason = async (req, res, next) => {
       return res.status(200).send(player);
     }
 
+    if (player.position === "Goalie") {
+      const goalie: Goalie = {
+        ...player,
+        team: statsJson.currentTeam.name,
+        otLosses: statsJson.ot,
+        shutouts: statsJson.shutouts,
+        ties: statsJson.ties,
+        wins: statsJson.wins,
+        losses: statsJson.losses,
+        saves: statsJson.saves,
+        powerPlaySaves: statsJson.powerPlaySaves,
+        shortHandedSaves: statsJson.shortHandedSaves,
+        evenSaves: statsJson.evenSaves,
+        shortHandedShots: statsJson.shortHandedShots,
+        evenShots: statsJson.evenShots,
+        powerPlayShots: statsJson.powerPlayShots,
+        savePercentage: statsJson.savePercentage,
+        goalAgainstAverage: statsJson.goalAgainstAverage,
+        games: statsJson.games,
+        gamesStarted: statsJson.gamesStarted,
+        shotsAgainst: statsJson.shotsAgainst,
+        goalsAgainst: statsJson.goalsAgainst,
+        timeOnIcePerGame: statsJson.timeOnIcePerGame,
+        powerPlaySavePercentage: statsJson.powerPlaySavePercentage,
+        shortHandedSavePercentage: statsJson.shortHandedSavePercentage,
+        evenStrengthSavePercentage: statsJson.evenStrengthSavePercentage,
+      };
+      return res.status(200).json(goalie);
+    }
+
     const stats = statsJson.stats[0].splits[0].stat;
 
     let statsAvailable: boolean = true;
