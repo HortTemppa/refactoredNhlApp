@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getLeaderboards } from "../controllers/leaderboards";
 import { getPlayerStatsBySeason } from "../controllers/players";
+import { getLeagueStandings } from "../controllers/standings";
 const NHLRouter: Router = Router();
 
 import { getAllTeams, getTeamByID, getTeamRoster } from "../controllers/teams";
@@ -18,6 +19,7 @@ NHLRouter.get("/player/:id/:season", getPlayerStatsBySeason);
 NHLRouter.get("/leaderboards/:type/:sortBy/:season", getLeaderboards);
 
 /* TEAM STANDINGS */
+NHLRouter.get("/standings/league/:season", getLeagueStandings);
 
 /* INVALID ROUTE, 404*/
 
